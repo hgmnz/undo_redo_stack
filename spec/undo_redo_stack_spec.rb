@@ -5,16 +5,22 @@ describe UndoRedoStack do
 
   context 'by default' do
     it 'starts out empty' do
-      stack.should be_empty
+      stack.should_not have_commands
     end
   end
 
   context 'doing commands' do
     it 'records when a command is done' do
-      stack.commands_size be_zero
-      stack.do(1)
+      stack.should_not have_commands
+      stack.do(:command1)
       stack.commands_size.should == 1
     end
+
+    it 'can do several commands at once' do
+      stack.do(:command1, :command2)
+      stack.commands_size.should == 2
+    end
+
   end
 
   context 'undoing commands' do
@@ -25,13 +31,13 @@ describe UndoRedoStack do
     it 'undos the latest command' do
       stack.do(:command1)
       stack.do(:command2)
-      stack.undo.should == :command1
       stack.undo.should == :command2
+      stack.undo.should == :command1
     end
   end
 
-  context 'undoing' do
-    it 'allows you to undo the last command' do
+  context 'redoing commands' do
+    it 'allows you to redo the last undone command' do
       stack.do(:command1, :command2)
       stack.undo
 
@@ -39,11 +45,8 @@ describe UndoRedoStack do
     end
 
     it 'raises when there is nothing to redo' do
-      stack.push(:command1, :command2)
+      stack.do(:command1, :command2)
       expect { stack.redo }.to raise_error(UndoRedoStack::NothingToRedoError)
-
-      stack.undo
-      expect { stack.redo }.to_not raise_error
     end
   end
 
