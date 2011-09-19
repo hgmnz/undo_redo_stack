@@ -44,13 +44,6 @@ describe UndoRedoStack do
       stack.redo.should == :command2
     end
 
-    it 'raises when there is nothing to redo' do
-      stack.do(:command1, :command2)
-      expect { stack.redo }.to raise_error(UndoRedoStack::NothingToRedoError)
-    end
-  end
-
-  context 'redoing commands' do
     it 'does not allow redoing prior to undoing' do
       stack.do(:command)
       expect { stack.redo }.to raise_error(UndoRedoStack::NothingToRedoError)
