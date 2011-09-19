@@ -71,8 +71,21 @@ describe UndoRedoStack do
 
       it 'undos the the last done command after another redo' do
         stack.redo
-        stack.undo.should == :command1
+        stack.undo.should == :command3
       end
+    end
+
+    context 'redoing a command, and then undoing that' do
+      before do
+        stack.do(:command1, :command2)
+        stack.undo
+        stack.redo
+      end
+
+      it 'undos the last command that was redone' do
+        stack.undo.should == :command2
+      end
+
     end
 
   end
