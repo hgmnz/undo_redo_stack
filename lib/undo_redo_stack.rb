@@ -1,4 +1,4 @@
-require File.expand_path('stack', File.dirname(__FILE__))
+require 'stack'
 class UndoRedoStack
 
   class NothingToUndoError < StandardError; end
