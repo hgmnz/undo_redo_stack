@@ -3,9 +3,14 @@ require 'undo_redo_stack'
 describe UndoRedoStack do
   let(:stack)  { UndoRedoStack.new }
 
-  context 'by default' do
-    it 'starts out empty' do
+  context 'knows when it has commands' do
+    it 'does not have commands when no commands have been done' do
       stack.should_not have_commands
+    end
+
+    it 'has commands after you do one command' do
+      stack.do(:command)
+      stack.should have_commands
     end
   end
 
