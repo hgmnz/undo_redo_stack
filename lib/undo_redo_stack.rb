@@ -34,6 +34,8 @@ class UndoRedoStack
 
   def redo
     raise NothingToRedoError if !has_undos?
-    @undos.pop
+    @undos.pop.tap do |command|
+      @commands.push command
+    end
   end
 end
