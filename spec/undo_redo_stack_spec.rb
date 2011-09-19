@@ -73,6 +73,11 @@ describe UndoRedoStack do
         stack.redo
         stack.undo.should == :command3
       end
+
+      it 'undoing and redoing another level' do
+        stack.undo
+        stack.redo.should == :command1
+      end
     end
 
     context 'redoing a command, and then undoing that' do
