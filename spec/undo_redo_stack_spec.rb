@@ -25,6 +25,7 @@ describe UndoRedoStack do
 
   context 'undoing commands' do
     it 'does not allow undoing when no commands have been issued' do
+      stack.should_not have_commands
       expect { stack.undo }.to raise_error(UndoRedoStack::NothingToUndoError)
     end
 
